@@ -1,27 +1,40 @@
-herename: Update Merchant Store JSON
+name: Update Store JSON
+
 on:
   repository_dispatch:
     types: [update-store]
 
-permissions:
-  contents: write
-
 jobs:
-  update-data:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # إعطاء البوت صلاحية حفظ الملفات في المستودع
+
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      - name: تحميل ملفات المستودع
+        uses: actions/checkout@v4
 
-      - name: Fetch Merchant Data
+      - name: سحب بيانات المتجر من Firebase
         run: |
+          USERNAME="${{ github.event.client_payload.username }}"
+          echo "جاري سحب بيانات المتجر: $USERNAME"
+
+          # إنشاء مجلد stores إذا لم يكن موجوداً
           mkdir -p stores
-          # جلب البيانات بأمان باستخدام الأسرار
-          curl -s "${{ secrets.FIREBASE_URL }}stores/${{ github.event.client_payload.username }}.json?auth=${{ secrets.FIREBASE_SECRET }}" > stores/${{ github.event.client_payload.username }}.json
+          
+          # رابط قاعدة بياناتك مع المفتاح السري لضمان نجاح السحب
+          FIREBASE_URL="https://nalsh-store-default-rtdb.europe-west1.firebasedatabase.app/stores/${USERNAME}.json?auth=abWaY3WlYFKCeC72RKg8w8pU67IEGKvnrPGUyY0N"
+          
+          # سحب البيانات وحفظها في ملف JSON
+          curl -s "$FIREBASE_URL" -o "stores/${USERNAME}.json"
 
-      - name: Commit to GitHub Pages
+      - name: حفظ التعديلات ورفعها للمستودع
         run: |
-          git config --global user.name "Nalsh Auto CDN"
-          git config --global user.email "bot@nalsh.store"
+          git config --local user.email "action@github.com"
+          git config --local user.name "Nalsh Bot"
+          
           git add stores/${{ github.event.client_payload.username }}.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-Update: ${{ github.event.client_payload.username }}" && git push)
+          
+          git diff --quiet && git diff --staged --quiet || git commit -m "🚀 تحديث آلي لمنتجات المتجر: ${{ github.event.client_payload.username }}"
+          
+          git push
