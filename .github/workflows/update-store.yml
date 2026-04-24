@@ -1,0 +1,27 @@
+herename: Update Merchant Store JSON
+on:
+  repository_dispatch:
+    types: [update-store]
+
+permissions:
+  contents: write
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Fetch Merchant Data
+        run: |
+          mkdir -p stores
+          # جلب البيانات بأمان باستخدام الأسرار
+          curl -s "${{ secrets.FIREBASE_URL }}stores/${{ github.event.client_payload.username }}.json?auth=${{ secrets.FIREBASE_SECRET }}" > stores/${{ github.event.client_payload.username }}.json
+
+      - name: Commit to GitHub Pages
+        run: |
+          git config --global user.name "Nalsh Auto CDN"
+          git config --global user.email "bot@nalsh.store"
+          git add stores/${{ github.event.client_payload.username }}.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-Update: ${{ github.event.client_payload.username }}" && git push)
