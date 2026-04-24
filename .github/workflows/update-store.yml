@@ -1,4 +1,4 @@
-name: Update Store JSON
+name: Update Jamstack Store
 
 on:
   repository_dispatch:
@@ -8,33 +8,93 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # إعطاء البوت صلاحية حفظ الملفات في المستودع
+      contents: write
 
     steps:
-      - name: تحميل ملفات المستودع
+      - name: 📥 تحميل ملفات المستودع
         uses: actions/checkout@v4
 
-      - name: سحب بيانات المتجر من Firebase
+      - name: 🛡️ تنظيف المدخلات (Sanitization)
         run: |
-          USERNAME="${{ github.event.client_payload.username }}"
-          echo "جاري سحب بيانات المتجر: $USERNAME"
+          # السماح فقط بالحروف والأرقام والشرطة السفلية لمنع ثغرات Path Traversal
+          RAW_USER="${{ github.event.client_payload.username }}"
+          CLEAN_USER=$(echo "$RAW_USER" | sed 's/[^a-zA-Z0-9_-]//g')
+          echo "USERNAME=$CLEAN_USER" >> $GITHUB_ENV
 
-          # إنشاء مجلد stores إذا لم يكن موجوداً
-          mkdir -p stores
+      - name: ☁️ سحب البيانات الهندسية من Firebase
+        env:
+          # يتم جلب المفتاح السري بأمان من إعدادات GitHub Secrets
+          FIREBASE_SECRET: ${{ secrets.FIREBASE_SECRET }} 
+        run: |
+          echo "جاري سحب التحديثات من قاعدة البيانات..."
           
-          # رابط قاعدة بياناتك مع المفتاح السري لضمان نجاح السحب
-          FIREBASE_URL="https://nalsh-store-default-rtdb.europe-west1.firebasedatabase.app/stores/${USERNAME}.json?auth=abWaY3WlYFKCeC72RKg8w8pU67IEGKvnrPGUyY0N"
+          # سحب عقدة cdn_data بالكامل لحفظ (app, categories, stores)
+          FIREBASE_URL="https://nalsh-store-default-rtdb.europe-west1.firebasedatabase.app/cdn_data.json?auth=${FIREBASE_SECRET}"
           
-          # سحب البيانات وحفظها في ملف JSON
-          curl -s "$FIREBASE_URL" -o "stores/${USERNAME}.json"
+          # تحميل البيانات في ملف مؤقت
+          curl -s "$FIREBASE_URL" -o firebase_raw.json
 
-      - name: حفظ التعديلات ورفعها للمستودع
+      - name: 🏗️ بناء شجرة الملفات الآمنة (Virtual File System)
+        run: |
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+            
+            try {
+              // 1. التحقق الصارم من أن البيانات JSON حقيقي وسليم
+              const rawData = fs.readFileSync('firebase_raw.json', 'utf8');
+              const data = JSON.parse(rawData);
+              
+              if (!data || typeof data !== 'object') throw new Error('بيانات غير صالحة');
+
+              // 2. مسح مجلد cdn_data القديم لمنع بقاء ملفات لمنتجات محذوفة
+              if (fs.existsSync('cdn_data')) {
+                fs.rmSync('cdn_data', { recursive: true, force: true });
+              }
+              fs.mkdirSync('cdn_data', { recursive: true });
+
+              // 3. دالة ذكية لتحويل الـ JSON إلى مجلدات وملفات (Strict Structure)
+              function buildTree(basePath, obj) {
+                if (typeof obj !== 'object' || obj === null) return;
+                
+                for (const key in obj) {
+                  // حماية اسم الملف/المجلد من الرموز الخبيثة
+                  const safeKey = key.replace(/[^a-zA-Z0-9_.-]/g, '');
+                  const targetPath = path.join(basePath, safeKey);
+
+                  // إذا كان العنصر يحتوي على 'has_next' أو كان مصفوفة، فهو ملف JSON
+                  if (Array.isArray(obj[key]) || (typeof obj[key] === 'object' && obj[key].hasOwnProperty('has_next')) || safeKey === 'info' || safeKey === 'init') {
+                    fs.writeFileSync(targetPath + '.json', JSON.stringify(obj[key], null, 2));
+                  } 
+                  // غير ذلك، فهو مجلد (مثل stores أو tech_store)
+                  else {
+                    if (!fs.existsSync(targetPath)) fs.mkdirSync(targetPath, { recursive: true });
+                    buildTree(targetPath, obj[key]);
+                  }
+                }
+              }
+
+              // بدء البناء
+              buildTree('cdn_data', data);
+              console.log('✅ تم بناء شجرة الملفات بنجاح وحماية كاملة.');
+              
+              // حذف الملف المؤقت
+              fs.unlinkSync('firebase_raw.json');
+              
+            } catch (err) {
+              console.error('❌ فشل البناء: اختراق أو بيانات تالفة ->', err.message);
+              process.exit(1); // إيقاف العملية فوراً لحماية المستودع
+            }
+          "
+
+      - name: 🚀 حفظ التعديلات ورفعها للمستودع
         run: |
           git config --local user.email "action@github.com"
-          git config --local user.name "Nalsh Bot"
+          git config --local user.name "Nalsh Security Bot"
           
-          git add stores/${{ github.event.client_payload.username }}.json
+          git add cdn_data/
           
-          git diff --quiet && git diff --staged --quiet || git commit -m "🚀 تحديث آلي لمنتجات المتجر: ${{ github.event.client_payload.username }}"
+          # التحقق من وجود تغييرات قبل الرفع لتجنب الأخطاء
+          git diff --quiet && git diff --staged --quiet || git commit -m "🚀 تحديث آلي ومحمي لبيانات: ${{ env.USERNAME }}"
           
           git push
