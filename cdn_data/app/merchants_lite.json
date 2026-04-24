@@ -1,0 +1,200 @@
+[
+  {
+    "id": 5,
+    "store_name": "محفظه جيب",
+    "store_type": "other",
+    "username": "mmmmm"
+  },
+  {
+    "id": 101,
+    "store_name": "جدتك",
+    "store_type": "other",
+    "username": "tech_store1"
+  },
+  {
+    "id": 102,
+    "store_name": "أيفون ستور",
+    "store_type": "electronics",
+    "username": "tech_store2"
+  },
+  {
+    "id": 103,
+    "store_name": "الجوال الماسي",
+    "store_type": "electronics",
+    "username": "tech_store3"
+  },
+  {
+    "id": 104,
+    "store_name": "رواد الحاسوب",
+    "store_type": "electronics",
+    "username": "tech_store4"
+  },
+  {
+    "id": 105,
+    "store_name": "إلكترونيات المستقبل",
+    "store_type": "electronics",
+    "username": "tech_store5"
+  },
+  {
+    "id": 106,
+    "store_name": "بوتيك الأناقة",
+    "store_type": "fashion",
+    "username": "fashion_1"
+  },
+  {
+    "id": 107,
+    "store_name": "رجل عصري",
+    "store_type": "fashion",
+    "username": "fashion_2"
+  },
+  {
+    "id": 108,
+    "store_name": "عالم الموضة",
+    "store_type": "fashion",
+    "username": "fashion_3"
+  },
+  {
+    "id": 109,
+    "store_name": "ستايل سنتر",
+    "store_type": "fashion",
+    "username": "fashion_4"
+  },
+  {
+    "id": 110,
+    "store_name": "أزياء السلطان",
+    "store_type": "fashion",
+    "username": "fashion_5"
+  },
+  {
+    "id": 111,
+    "store_name": "مطعم الهنا",
+    "store_type": "restaurant",
+    "username": "food_1"
+  },
+  {
+    "id": 112,
+    "store_name": "برجر كينج",
+    "store_type": "restaurant",
+    "username": "food_2"
+  },
+  {
+    "id": 113,
+    "store_name": "بيتزا هت",
+    "store_type": "restaurant",
+    "username": "food_3"
+  },
+  {
+    "id": 114,
+    "store_name": "كافيه الروقان",
+    "store_type": "restaurant",
+    "username": "food_4"
+  },
+  {
+    "id": 115,
+    "store_name": "شاورما زون",
+    "store_type": "restaurant",
+    "username": "food_5"
+  },
+  {
+    "id": 116,
+    "store_name": "سوبرماركت السعادة",
+    "store_type": "grocery",
+    "username": "groc_1"
+  },
+  {
+    "id": 117,
+    "store_name": "بقالة النور",
+    "store_type": "grocery",
+    "username": "groc_2"
+  },
+  {
+    "id": 118,
+    "store_name": "هايبر ماركت",
+    "store_type": "grocery",
+    "username": "groc_3"
+  },
+  {
+    "id": 119,
+    "store_name": "أسواق المزرعة",
+    "store_type": "grocery",
+    "username": "groc_4"
+  },
+  {
+    "id": 120,
+    "store_name": "مركز العائلة",
+    "store_type": "grocery",
+    "username": "groc_5"
+  },
+  {
+    "id": 1001,
+    "store_name": "عالم التقنية",
+    "store_type": "electronics",
+    "username": "tech_store"
+  },
+  {
+    "id": 1002,
+    "store_name": "برجر هاوس",
+    "store_type": "restaurant",
+    "username": "burger_house"
+  },
+  {
+    "id": 1003,
+    "store_name": "أزياء وعطور برو",
+    "store_type": "fashion",
+    "username": "fashion_pro"
+  },
+  {
+    "id": 1004,
+    "store_name": "ملابس نسائيه",
+    "store_type": "general",
+    "username": "tttttttyt"
+  },
+  {
+    "id": 1005,
+    "store_name": "مطعم وجبات سريعه",
+    "store_type": "general",
+    "username": "hazsud"
+  },
+  {
+    "id": 1006,
+    "store_name": "مطعم",
+    "store_type": "general",
+    "username": "shdhehhg"
+  },
+  {
+    "id": 1007,
+    "store_name": "محمد شيباني",
+    "store_type": "general",
+    "username": "ggcxhbfgtdg"
+  },
+  {
+    "id": 1008,
+    "store_name": "زرزبتب",
+    "store_type": "general",
+    "username": "bsvdhdjs"
+  },
+  {
+    "id": 1009,
+    "store_name": "shdhdhhd",
+    "store_type": "general",
+    "username": "bsbdbsvdhdjs"
+  },
+  {
+    "id": 1010,
+    "store_name": "hehehrhrjrjrhjrnrbr",
+    "store_type": "general",
+    "username": "bdbebrbrbrbr"
+  },
+  {
+    "id": 1011,
+    "store_name": "وةوظتاة",
+    "store_type": "general",
+    "username": "hxhncxchfcbjh"
+  },
+  {
+    "id": 1013,
+    "store_name": "ىوظىر",
+    "store_type": "general",
+    "username": "bvchxhncxchfcbjh"
+  }
+]
