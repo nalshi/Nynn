@@ -14,8 +14,8 @@
       "merchant_username": "bvchxhncxchfcbjh",
       "name": "وىوززة",
       "price": "60.00",
-      "quantity": 9999,
-      "quantity_type": "unlimited",
+      "quantity": 999,
+      "quantity_type": "tracked",
       "type": "تا"
     },
     {
