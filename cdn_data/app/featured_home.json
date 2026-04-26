@@ -2,6 +2,17 @@
   {
     "department": "عام",
     "discount": "0.00",
+    "global_product_id": "prod_73d4198c-772f-4fbc-ba0e-7517d6d400c4",
+    "image": "https://i.ibb.co/NdrmmbXv/4e0466fd2a4e.jpg",
+    "merchant_id": 1013,
+    "merchant_name": "ىوظىر",
+    "merchant_username": "bvchxhncxchfcbjh",
+    "name": "مقواز 1",
+    "price": "6000.00"
+  },
+  {
+    "department": "عام",
+    "discount": "0.00",
     "global_product_id": "prod_c105a4e0-c0fc-4649-b8ea-151ef6fd9e9b",
     "image": "https://i.ibb.co/Mk1hrD2Q/6b1be4c25b7e.jpg",
     "merchant_id": 1013,
@@ -275,17 +286,6 @@
     "price": "6000.00"
   },
   {
-    "department": "مطاعم",
-    "discount": "0.00",
-    "global_product_id": "prod_test_003",
-    "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80",
-    "merchant_id": 1002,
-    "merchant_name": "برجر هاوس",
-    "merchant_username": "burger_house",
-    "name": "وجبة برجر لحم دبل",
-    "price": "4500.00"
-  },
-  {
     "department": "إلكترونيات",
     "discount": "0.00",
     "global_product_id": "prod_test_002",
@@ -295,5 +295,16 @@
     "merchant_username": "tech_store",
     "name": "سماعات أبل AirPods Pro",
     "price": "95000.00"
+  },
+  {
+    "department": "مطاعم",
+    "discount": "0.00",
+    "global_product_id": "prod_test_003",
+    "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80",
+    "merchant_id": 1002,
+    "merchant_name": "برجر هاوس",
+    "merchant_username": "burger_house",
+    "name": "وجبة برجر لحم دبل",
+    "price": "4500.00"
   }
 ]
